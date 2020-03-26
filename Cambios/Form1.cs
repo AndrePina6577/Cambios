@@ -1,9 +1,7 @@
 ﻿namespace Cambios
 {
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    using System.Net.Http;
     using System.Windows.Forms;
     using Cambios.Modelos;
     using Cambios.Modelos.Servicos;
@@ -19,6 +17,8 @@
         private ApiService apiService;
 
         private DialogService dialogService;
+
+        private DataService dataService;
         #endregion
         public Form1()
         {
@@ -27,6 +27,8 @@
             networkService = new NetworkService();
             apiService = new ApiService();
             dialogService = new DialogService();
+            dataService = new DataService();
+
             LoadRates();
         }
 
@@ -42,14 +44,11 @@
             {
                 LoadLocalrates();
                 load = false;
-                lblStatus.Text = string.Format("taxas carregadas da base de dados.");
-                return;
             }
             else
             {
                 await LoadApiRates();
                 load = true;
-                lblStatus.Text = string.Format($"Taxas carregadas da Internet em {DateTime.Now:F}");
             }
 
             if (Rates.Count == 0)
@@ -72,20 +71,21 @@
 
             lblResultado.Text = "Taxas atualizadas";
 
-            /*if (load)
+            if (load)
             {
                 lblStatus.Text = string.Format($"Taxas carregadas da Internet em {DateTime.Now:F}");
             }
             else
             {
-                lblStatus.Text = string.Format("taxas carregadas da base de dados.");
-            }*/
+                lblStatus.Text = string.Format("Taxas carregadas da base de dados.");
+            }
+
             pgStatus.Value = 100;   
         }
 
         private void LoadLocalrates()
         {
-            MessageBox.Show("Não está implementado");
+            Rates = dataService.GetData();
         }
 
         private async Task LoadApiRates()
@@ -93,6 +93,9 @@
             var response = await apiService.GetRates("https://cambiosrafa.azurewebsites.net", "/api/Rates");
 
             Rates = (List<Rate>)response.Result;
+
+            dataService.DeleteData();
+            dataService.SaveDate(Rates);
         }
 
         private void btnConverter_Click(object sender, EventArgs e)
@@ -148,6 +151,5 @@
 
             Converter();
         }
-
     }
 }

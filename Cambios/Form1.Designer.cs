@@ -110,10 +110,10 @@
             // lblResultado
             // 
             this.lblResultado.AutoSize = true;
-            this.lblResultado.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblResultado.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblResultado.Location = new System.Drawing.Point(176, 177);
             this.lblResultado.Name = "lblResultado";
-            this.lblResultado.Size = new System.Drawing.Size(325, 16);
+            this.lblResultado.Size = new System.Drawing.Size(301, 15);
             this.lblResultado.TabIndex = 7;
             this.lblResultado.Text = "Escolha um valor, moeda de origem e destino";
             // 
@@ -149,7 +149,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(539, 274);
+            this.ClientSize = new System.Drawing.Size(573, 274);
             this.Controls.Add(this.btnTroca);
             this.Controls.Add(this.pgStatus);
             this.Controls.Add(this.lblStatus);
