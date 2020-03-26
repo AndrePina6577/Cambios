@@ -37,6 +37,7 @@
             this.btnConverter = new System.Windows.Forms.Button();
             this.lblResultado = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
+            this.pgStatus = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // label1
@@ -122,11 +123,19 @@
             this.lblStatus.TabIndex = 8;
             this.lblStatus.Text = "status";
             // 
+            // pgStatus
+            // 
+            this.pgStatus.Location = new System.Drawing.Point(361, 230);
+            this.pgStatus.Name = "pgStatus";
+            this.pgStatus.Size = new System.Drawing.Size(150, 23);
+            this.pgStatus.TabIndex = 9;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(539, 274);
+            this.Controls.Add(this.pgStatus);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.lblResultado);
             this.Controls.Add(this.btnConverter);
@@ -154,6 +163,7 @@
         private System.Windows.Forms.Button btnConverter;
         private System.Windows.Forms.Label lblResultado;
         private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.ProgressBar pgStatus;
     }
 }
 
