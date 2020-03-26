@@ -6,13 +6,23 @@
     using System.Net.Http;
     using System.Windows.Forms;
     using Cambios.Modelos;
+    using Cambios.Modelos.Servicos;
+    using System.Threading.Tasks;
 
     public partial class Form1 : Form
     {
+        #region Atributos
+        private NetworkService networkService;
+
+        private ApiService apiService;
+        #endregion
+        public List<Rate> Rates { get; set; } = new List<Rate>();
         public Form1()
         {
             InitializeComponent();
 
+            networkService = new NetworkService();
+            apiService = new ApiService();
             LoadRates();
         }
 
@@ -20,31 +30,39 @@
         {
             //bool load;
 
-            var client = new HttpClient();
-            client.BaseAddress = new Uri("https://cambiosrafa.azurewebsites.net");
+            lblResultado.Text = "A atualizar taxas...";
 
-            var response = await client.GetAsync("/api/Rates");
+            var connection = networkService.CheckConnection();
 
-            var result = await response.Content.ReadAsStringAsync();
-
-            if (!response.IsSuccessStatusCode)
+            if (!connection.IsSuccess)
             {
-                MessageBox.Show(response.ReasonPhrase);
+                MessageBox.Show(connection.Message);
                 return;
             }
+            else
+            {
+                await LoadApiRates();
+            }
 
-            var rates = JsonConvert.DeserializeObject<List<Rate>>(result);
-
-            cbOrigem.DataSource = rates;
+            cbOrigem.DataSource = Rates;
             cbOrigem.DisplayMember = "Name";
 
             //Correção bug microsoft de bindar as cb
             cbDestino.BindingContext = new BindingContext();
 
-            cbDestino.DataSource = rates;
+            cbDestino.DataSource = Rates;
             cbDestino.DisplayMember = "Name";
 
             pgStatus.Value = 100;
+
+            lblResultado.Text = "Taxas carregadas";
+        }
+
+        private async Task LoadApiRates()
+        {
+            var response = await apiService.GetRates("https://cambiosrafa.azurewebsites.net", "/api/Rates");
+
+            Rates = (List<Rate>)response.Result;
         }
     }
 }
